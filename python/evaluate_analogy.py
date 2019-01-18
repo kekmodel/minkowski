@@ -57,13 +57,13 @@ def compute_accuracy_euclidean(word_vecs, questions):
 
             if nearest_word.lower() == w3:
                 num_correct += 1
-                
+
             num_processed += 1
-                
+
         except Exception as e:
             print(str(e))
             continue
-            
+
     accuracy = float(num_correct) / float(num_processed)
     return accuracy, num_processed
 
@@ -98,18 +98,18 @@ def compute_accuracy_hyperbolic(word_vecs, questions):
                 closest.remove(w1)
             if w2 in closest:
                 closest.remove(w2)
- 
+
             nearest_word = closest[0]
 
             if nearest_word.lower() == w3:
                 num_correct += 1
-                
+
             num_processed += 1
-                
+
         except Exception as e:
             print(str(e))
             continue
-            
+
     accuracy = float(num_correct) / float(num_processed)
     return accuracy, num_processed
 
@@ -126,7 +126,8 @@ def run_analogy_evaluation(hyperbolic_files, euclidean_files):
         accuracy, num_processed = compute_accuracy_hyperbolic(vecs, questions)
         hyperbolic_analogy[f] = accuracy
         print(f)
-        print('Processed {} out of {} questions.'.format(num_processed, len(questions)))
+        print('Processed {} out of {} questions.'.format(
+            num_processed, len(questions)))
         print('Accuracy = {}'.format(accuracy))
         print('\n\n')
 
@@ -135,7 +136,8 @@ def run_analogy_evaluation(hyperbolic_files, euclidean_files):
         accuracy, num_processed = compute_accuracy_euclidean(vecs, questions)
         euclidean_analogy[f] = accuracy
         print(f)
-        print('Processed {} out of {} questions.'.format(num_processed, len(questions)))
+        print('Processed {} out of {} questions.'.format(
+            num_processed, len(questions)))
         print('Accuracy = {}'.format(accuracy))
         print('\n\n')
 

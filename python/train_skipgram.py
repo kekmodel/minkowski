@@ -25,24 +25,24 @@ def run_training(dim, epochs, lr, t, ws, min_count, neg, init_stddev):
 
     output_file_hyperbolic = 'vecs-{}-hyperbolic-dim-{}-epochs-{}-lr-{}-t-{}' \
                              '-ws-{}-minCount-{}-neg-{}-initStddev-{}'.format(
-        INPUT_LABEL, dim, epochs, lr, t, ws, min_count, neg, init_stddev)
+                                 INPUT_LABEL, dim, epochs, lr, t, ws, min_count, neg, init_stddev)
 
     os.system('/home/ubuntu/minkowski-build/minkowski -input {} -output {} '
               '-max-step-size 1.0 -dimension {} -start-lr {} -end-lr 0 '
               '-epochs {} -init-std-dev {} -min-count {} -t {} -window-size {} '
               '-number-negatives {} -threads 64'.format(
-        INPUT_FILE, output_file_hyperbolic, dim + 1, lr, epochs, init_stddev,
-        min_count, t, ws, neg))
+                  INPUT_FILE, output_file_hyperbolic, dim + 1, lr, epochs, init_stddev,
+                  min_count, t, ws, neg))
 
     output_file_euclidean = 'vecs-{}-euclidean-dim-{}-epochs-{}-lr-{}-t-{}' \
                             '-ws-{}-minCount-{}-neg-{}'.format(
-        INPUT_LABEL, dim, epochs, lr, t, ws, min_count, neg)
+                                INPUT_LABEL, dim, epochs, lr, t, ws, min_count, neg)
 
     os.system('/home/ubuntu/fastText-build-euc/fasttext skipgram -input {} '
               '-output {} -dim {} -lr {} -epoch {} -minCount {} -minn 0 '
               '-maxn 0 -t {} -ws {} -loss ns -neg {} -thread 64'.format(
-        INPUT_FILE, output_file_euclidean, dim, lr, epochs, min_count, t, ws,
-        neg))
+                  INPUT_FILE, output_file_euclidean, dim, lr, epochs, min_count, t, ws,
+                  neg))
 
     return output_file_hyperbolic + '.csv', output_file_euclidean + '.vec'
 

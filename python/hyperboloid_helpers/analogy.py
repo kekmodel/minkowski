@@ -48,5 +48,6 @@ def word_analogy(a, b, c, word_vecs):
     a:b = c:X. 'vecs' is a pd.DataFrame holding the word vectors
     indexed by the vocabulary.
     """
-    vec = analogy(np.array(word_vecs.loc[a]), np.array(word_vecs.loc[b]), np.array(word_vecs.loc[c]))
+    vec = analogy(np.array(word_vecs.loc[a]), np.array(
+        word_vecs.loc[b]), np.array(word_vecs.loc[c]))
     return closest_words(vec, word_vecs)

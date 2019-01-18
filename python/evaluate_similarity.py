@@ -12,6 +12,7 @@ from hyperboloid_helpers.fasttext import *
 SIMILARITY_DIR = '/home/ubuntu/eval-word-vectors/data/word-sim/'
 DATASETS = ['EN-WS-353-ALL.txt', 'EN-SIMLEX-999.txt', 'EN-MEN-TR-3k.txt']
 
+
 def normalize(array, l=2, axis=None, return_norm=False):
     div = np.linalg.norm(array, ord=l, axis=axis, keepdims=True)
     if return_norm:
@@ -42,7 +43,8 @@ def evaluate_similarity(vec_file, hyperboloid=True):
         word_vecs[:] = normalize(np.asarray(word_vecs), l=2, axis=1)
 
     print('=================================================================================')
-    print("%6s" %"Serial", "%20s" % "Dataset", "%15s" % "Num Pairs", "%15s" % "Not found", "%15s" % "Rho")
+    print("%6s" % "Serial", "%20s" % "Dataset", "%15s" %
+          "Num Pairs", "%15s" % "Not found", "%15s" % "Rho")
     print('=================================================================================')
 
     for i, filename in enumerate(DATASETS):
@@ -66,19 +68,21 @@ def evaluate_similarity(vec_file, hyperboloid=True):
                 else:
                     # Uses the Euclidean dot product to rate the similarity.
                     auto_dict[(word1, word2)] = \
-                        np.array(word_vecs.loc[word1]).dot(np.array(word_vecs.loc[word2]))
+                        np.array(word_vecs.loc[word1]).dot(
+                            np.array(word_vecs.loc[word2]))
 
             else:
                 not_found += 1
-            total_size += 1  
+            total_size += 1
 
-        rho = spearmanr(list(manual_dict.values()), list(auto_dict.values()))[0]
+        rho = spearmanr(list(manual_dict.values()),
+                        list(auto_dict.values()))[0]
         rhos.append(rho)
         num_pairs.append(max(0, total_size-not_found))
 
         print("%6s" % str(i+1), "%20s" % filename, "%15s" % str(total_size),
               "%15s" % str(not_found), "%15.4f" % rho)
-        
+
     return rhos, num_pairs
 
 

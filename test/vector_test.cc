@@ -4,19 +4,23 @@
 #include <cmath>
 #include <random>
 
-namespace {
+namespace
+{
 
-TEST(VectorTest, init_with_zeros) {
+TEST(VectorTest, init_with_zeros)
+{
     int m = 5;
     minkowski::Vector vec(m);
     vec.zero();
     EXPECT_EQ(vec.dimension_, m);
-    for (auto i = 0; i < vec.dimension_; ++i) {
+    for (auto i = 0; i < vec.dimension_; ++i)
+    {
         EXPECT_EQ(0., vec[i]);
     }
 }
 
-TEST(VectorTest, multiply) {
+TEST(VectorTest, multiply)
+{
     minkowski::Vector vec(2);
     vec[0] = 1.;
     vec[1] = 2.;
@@ -25,7 +29,8 @@ TEST(VectorTest, multiply) {
     EXPECT_FLOAT_EQ(3., vec[1]);
 }
 
-TEST(VectorTest, minkowskiDot) {
+TEST(VectorTest, minkowskiDot)
+{
     minkowski::Vector vec_a(3);
     minkowski::Vector vec_b(3);
 
@@ -41,21 +46,23 @@ TEST(VectorTest, minkowskiDot) {
     EXPECT_FLOAT_EQ(2.25, mdp);
 }
 
-TEST(VectorTest, randomHyperboloidPoint) {
+TEST(VectorTest, randomHyperboloidPoint)
+{
     std::minstd_rand rng(1);
     minkowski::Vector vec_a(3);
     minkowski::Vector vec_b(3);
 
     random_hyperboloid_point(vec_a, rng, 0.1);
     random_hyperboloid_point(vec_b, rng, 0.1);
-    EXPECT_NE(vec_a[0], vec_b[0]);  // vectors should be different
+    EXPECT_NE(vec_a[0], vec_b[0]); // vectors should be different
 
     // vectors should be on the hyperboloid
     auto mdp = minkowski_dot(vec_a, vec_a);
     EXPECT_FLOAT_EQ(-1., mdp);
 }
 
-TEST(VectorTest, distance) {
+TEST(VectorTest, distance)
+{
     minkowski::Vector vec_a(2);
     minkowski::Vector vec_b(2);
 
@@ -71,7 +78,8 @@ TEST(VectorTest, distance) {
     EXPECT_FLOAT_EQ(hyperangle, dist);
 }
 
-TEST(VectorTest, ensureOnHyperboloid) {
+TEST(VectorTest, ensureOnHyperboloid)
+{
     minkowski::Vector vec(2);
 
     // almost the basepoint
@@ -84,7 +92,8 @@ TEST(VectorTest, ensureOnHyperboloid) {
     EXPECT_FLOAT_EQ(1.0, vec[1]);
 }
 
-TEST(VectorTest, ensureOnHyperboloidNoOp) {
+TEST(VectorTest, ensureOnHyperboloidNoOp)
+{
     minkowski::Vector vec(2);
 
     // basepoint: already on the hyperboloid
@@ -96,7 +105,8 @@ TEST(VectorTest, ensureOnHyperboloidNoOp) {
     EXPECT_FLOAT_EQ(1., vec[1]);
 }
 
-TEST(VectorTest, toBallPointAtBasepoint) {
+TEST(VectorTest, toBallPointAtBasepoint)
+{
     minkowski::Vector vec(2);
     // basepoint
     vec[0] = 0.;
@@ -107,7 +117,8 @@ TEST(VectorTest, toBallPointAtBasepoint) {
     EXPECT_FLOAT_EQ(0., vec[1]);
 }
 
-TEST(VectorTest, toBallPoint) {
+TEST(VectorTest, toBallPoint)
+{
     minkowski::Vector vec(2);
     real dist = 1;
     vec[0] = std::sinh(dist);
@@ -118,7 +129,8 @@ TEST(VectorTest, toBallPoint) {
     EXPECT_FLOAT_EQ(std::tanh(dist / 2), norm);
 }
 
-TEST(VectorTest, toHyperboloidPoint) {
+TEST(VectorTest, toHyperboloidPoint)
+{
     minkowski::Vector vec(3);
     real dist = 1.2;
     vec[0] = 0.;
@@ -130,7 +142,8 @@ TEST(VectorTest, toHyperboloidPoint) {
     EXPECT_FLOAT_EQ(std::cosh(dist), vec[2]);
 }
 
-TEST(VectorTest, toBallTangent) {
+TEST(VectorTest, toBallTangent)
+{
     // a point on the hyperboloid
     minkowski::Vector point(3);
     real dist = 1.2;
@@ -161,7 +174,8 @@ TEST(VectorTest, toBallTangent) {
     EXPECT_FLOAT_EQ(1., 2 * euclid_norm / (1 - r * r));
 }
 
-TEST(VectorTest, geodesicUpdate) {
+TEST(VectorTest, geodesicUpdate)
+{
     // basepoint
     minkowski::Vector basepoint(2);
     basepoint[0] = 0.f;
@@ -179,7 +193,8 @@ TEST(VectorTest, geodesicUpdate) {
     EXPECT_FLOAT_EQ(dist, distance(basepoint, point));
 }
 
-TEST(VectorTest, projectOntoTangentSpace) {
+TEST(VectorTest, projectOntoTangentSpace)
+{
     // basepoint
     minkowski::Vector point(2);
     point[0] = 0.;
@@ -193,4 +208,4 @@ TEST(VectorTest, projectOntoTangentSpace) {
     EXPECT_FLOAT_EQ(0., mdp);
 }
 
-}  // namespace
+} // namespace

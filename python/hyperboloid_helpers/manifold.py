@@ -15,8 +15,9 @@ def minkowski_dot_matrix(vecs_a, vecs_b):
     Return the matrix giving the Minkowski dot product of every vector in vecs_a with every vector in vecs_b.
     """
     rank = vecs_a.shape[1] - 1
-    euc_dps = vecs_a[:,:rank].dot(vecs_b[:,:rank].T)
-    timelike = vecs_a[:,rank][:,np.newaxis].dot(vecs_b[:,rank][:,np.newaxis].T)
+    euc_dps = vecs_a[:, :rank].dot(vecs_b[:, :rank].T)
+    timelike = vecs_a[:, rank][:, np.newaxis].dot(
+        vecs_b[:, rank][:, np.newaxis].T)
     return euc_dps - timelike
 
 
@@ -27,7 +28,7 @@ def logarithm(base, other):
     mdp = minkowski_dot(base, other)
     dist = np.arccosh(-mdp)
     proj = other + mdp * base
-    norm = np.sqrt(minkowski_dot(proj, proj)) 
+    norm = np.sqrt(minkowski_dot(proj, proj))
     proj *= dist / norm
     return proj
 
@@ -51,5 +52,6 @@ def geodesic_parallel_transport(base, direction, tangent):
     norm_direction = np.sqrt(minkowski_dot(direction, direction))
     unit_direction = direction / norm_direction
     parallel_component = minkowski_dot(tangent, unit_direction)
-    unit_direction_transported = np.sinh(norm_direction) * base + np.cosh(norm_direction) * unit_direction
-    return parallel_component * unit_direction_transported + tangent - parallel_component * unit_direction 
+    unit_direction_transported = np.sinh(
+        norm_direction) * base + np.cosh(norm_direction) * unit_direction
+    return parallel_component * unit_direction_transported + tangent - parallel_component * unit_direction
